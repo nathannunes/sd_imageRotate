@@ -1,0 +1,18 @@
+# ninja log v5
+1	262	1664236301738108407	CMakeFiles/Practice.dir/LectureFiles/singleDriver.cpp.o	a2b29da9dfd431f2
+428	457	1664233525146588268	untitled	9ff7c11242842c70
+6	156	1664564944142243577	CMakeFiles/SoftwareDesign.dir/PixelFiles/ColorPixel.cpp.o	7af726f33848ea82
+1	653	1664657194812598494	CMakeFiles/SoftwareDesign.dir/ppm.cpp.o	9ecf2c497515c9b
+503	538	1664657291432399860	SoftwareDesign	a70a6ec66b7a10d9
+0	377	1664236361996013533	CMakeFiles/SoftwareDesign.dir/main.cpp.o	653cf7ed9c649067
+1	428	1664233525115251494	CMakeFiles/untitled.dir/main.cpp.o	bc455ed54f5d9ceb
+1	493	1664343418501767094	CMakeFiles/SoftwareDesign.dir/ppg.cpp.o	9c884bc0c31fab29
+0	79	1664661151009187452	build.ninja	127521f73fbe75e9
+5	503	1664657291395345718	CMakeFiles/SoftwareDesign.dir/rotator.cpp.o	375889e938a16aad
+2	57	1664661151009187452	build.ninja	127521f73fbe75e9
+2	638	1664661151649551870	CMakeFiles/SoftwareDesign.dir/rotator.cpp.o	375889e938a16aad
+1	438	1664661350525975881	CMakeFiles/SoftwareDesign.dir/ppg.cpp.o	9c884bc0c31fab29
+2	490	1664661350579003836	CMakeFiles/SoftwareDesign.dir/rotator.cpp.o	375889e938a16aad
+490	527	1664661350617611490	SoftwareDesign	f3eaf75796d155f3
+1	472	1664661375420446351	CMakeFiles/SoftwareDesign.dir/rotator.cpp.o	375889e938a16aad
+472	505	1664661375455552888	SoftwareDesign	f3eaf75796d155f3
