@@ -6,24 +6,31 @@
 #define ASSIGNMENT_PGM_H
 
 #include <string>
+#include <vector>
+#include <fstream>
+#include <iostream>
+#include "PixelFiles/grayPixel.h"
+
+using namespace std;
+
 
 using namespace std;
 
 class Pgm {
-private:
-    static Pgm *instance;  // single Instance
-    // private constructor
+public:
+    Pgm();
+    ~Pgm();
+    int readFile(string filePath);
+
 
 protected:
-    string magicNumber;
-    int height;
-    int width;
-    int max_value=255;
 
-public:
-    static Pgm* getInstance();
+private:
+    string magicNum;
+    int maxHeight,maxWidth,maxPixelSize;
+    vector<GrayPixel> grayPixelsVector;
+    vector<vector<GrayPixel> > imageContainer;
 
-    Pgm() : height(0),width(0),magicNumber(""),max_value(255) {}
 };
 
 #endif //ASSIGNMENT_PGM_H

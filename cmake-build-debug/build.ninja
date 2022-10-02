@@ -52,8 +52,8 @@ build CMakeFiles/SoftwareDesign.dir/ppm.cpp.o: CXX_COMPILER__SoftwareDesign_Debu
   OBJECT_DIR = CMakeFiles/SoftwareDesign.dir
   OBJECT_FILE_DIR = CMakeFiles/SoftwareDesign.dir
 
-build CMakeFiles/SoftwareDesign.dir/ppg.cpp.o: CXX_COMPILER__SoftwareDesign_Debug /Users/natha/CLionProjects/SoftwareDesign/ppg.cpp || cmake_object_order_depends_target_SoftwareDesign
-  DEP_FILE = CMakeFiles/SoftwareDesign.dir/ppg.cpp.o.d
+build CMakeFiles/SoftwareDesign.dir/pgm.cpp.o: CXX_COMPILER__SoftwareDesign_Debug /Users/natha/CLionProjects/SoftwareDesign/pgm.cpp || cmake_object_order_depends_target_SoftwareDesign
+  DEP_FILE = CMakeFiles/SoftwareDesign.dir/pgm.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -std=gnu++20
   OBJECT_DIR = CMakeFiles/SoftwareDesign.dir
   OBJECT_FILE_DIR = CMakeFiles/SoftwareDesign.dir
@@ -78,7 +78,7 @@ build CMakeFiles/SoftwareDesign.dir/rotator.cpp.o: CXX_COMPILER__SoftwareDesign_
 #############################################
 # Link the executable SoftwareDesign
 
-build SoftwareDesign: CXX_EXECUTABLE_LINKER__SoftwareDesign_Debug CMakeFiles/SoftwareDesign.dir/ppm.cpp.o CMakeFiles/SoftwareDesign.dir/ppg.cpp.o CMakeFiles/SoftwareDesign.dir/PixelFiles/ColorPixel.cpp.o CMakeFiles/SoftwareDesign.dir/rotator.cpp.o
+build SoftwareDesign: CXX_EXECUTABLE_LINKER__SoftwareDesign_Debug CMakeFiles/SoftwareDesign.dir/ppm.cpp.o CMakeFiles/SoftwareDesign.dir/pgm.cpp.o CMakeFiles/SoftwareDesign.dir/PixelFiles/ColorPixel.cpp.o CMakeFiles/SoftwareDesign.dir/rotator.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
   OBJECT_DIR = CMakeFiles/SoftwareDesign.dir
   POST_BUILD = :

@@ -13,8 +13,9 @@ public:
     GrayPixel(int grayValue){
         this->grayValue=grayValue;
     }
-
-    ~GrayPixel();
+    int getGrayValue(){
+        return this->grayValue;
+    }
+    ~GrayPixel(){};
 };
-
 #endif //ASSIGNMENT_GRAYPIXEL_H
