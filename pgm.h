@@ -20,7 +20,7 @@ class Pgm {
 public:
     Pgm();
     ~Pgm();
-    int readFile(string filePath);
+    int readFile(string filePath, string outFilePath);
 
 
 protected:

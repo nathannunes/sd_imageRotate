@@ -13,7 +13,11 @@ class Ppm
 public:
     Ppm();
     ~Ppm();
-    int readFile(string filePath);
+    vector<vector<ColorPixel> > readFile(string filePath);
+    void writeFile(vector<vector<ColorPixel> > imageContainerT);
+    int getMaxHeight();
+    int getMaxWidth();
+    string getMagicNum();
 
 
 protected:

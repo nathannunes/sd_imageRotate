@@ -2,51 +2,38 @@
 // Created by Nathan Nunes on 10/1/22.
 //
 #include <iostream>
+#include <vector>
+#include "Rotator.h"
 #include "ppm.h"
 #include "pgm.h"
+#include "PixelFiles/ColorPixel.h"
 
 using namespace std;
 
-class Rotator{
-
-public:
-    static Rotator *Instance();
-
-    string getInputFile() {return inputFile_;}
-
-    void setInputFile( string &inputFile) { inputFile_ = inputFile; }
-
-    string getOutputFile()  {return outputFile_;}
-
-    void setOutputFile( string &outputFile) { outputFile_ = outputFile; }
-
-    string getRotateDirection() { return rotateDirection_; }
-
-    void setRotateDirection(string &rotateDirection) { rotateDirection_ = rotateDirection; }
-
-    int getAngleOfRotation()  { return angleOfRotation_; }
-
-    void setAngleOfRotation(int angleOfRotation) { angleOfRotation_= angleOfRotation; }
-
-
-    void rotate(){
+vector<vector<ColorPixel> > Rotator::rotatePPM(vector<vector<ColorPixel> > imageContainer,Ppm inPpm){
+    int maxH = inPpm.getMaxHeight();
+    int maxW = inPpm.getMaxWidth();
+    //Transposing matrix
+    vector<vector<ColorPixel> > imageContainerT(maxW,vector<ColorPixel>(maxH));
+    for(int i=0;i<inPpm.getMaxHeight();i++){
+        for(int j=0;j<inPpm.getMaxWidth();j++){
+            imageContainerT[j][i] = imageContainer[i][j];
+        }
     }
+    for(long long unsigned int i=0; i<imageContainerT.size(); ++i) {
+        // 2 Pointer approach :  just like we do in 1D array we take left and right pointers
+        // and swap the values and then make those pointers intersect at some point.
+        int left = 0, right = imageContainerT[i].size()-1;
+        while(left < right) {
+            swap(imageContainerT[i][left], imageContainerT[i][right]);
+            ++left;
+            --right;
+        }
+    }
+    return imageContainerT;
+}
 
-
-
-private:
-    Rotator(){};
-    ~Rotator();
-
-
-    static Rotator* instance_;
-
-    string inputFile_ , outputFile_ , rotateDirection_ ;
-    int angleOfRotation_;
-
-};
-
-
+// get the instance
 Rotator* Rotator::instance_ = NULL;
 Rotator* Rotator::Instance() {
     if (instance_ == NULL) {
@@ -70,27 +57,26 @@ int main(int argc, char** argv) {
     const string PGM = "pgm";
     const string PPM = "ppm";
 
-    const int BUFFERSIZE = 50000;
-
     // create objects of file types
     Ppm inPpm;
     Pgm inPgm;
 
-    /*p1->setInputFile(inputFile), p1->setOutputFile(outputFile),
-            p1->setAngleOfRotation(angleOfRotation), p1->setRotateDirection(rotateDirection);*/
+    p1->setInputFile(inputFile);
+    p1->setOutputFile(outputFile);
+    p1->setRotateDirection(rotateDirection);
+
+    //p1->setAngleOfRotation(angleOfRotation), p1->setRotateDirection(rotateDirection);
 
     if (inputFile.substr(inputFile.size() - 3) == PGM) {
         cout << "pgm file found" << endl;
         cout << inputFile;
-        inPgm.readFile(p1->getInputFile());
+        inPgm.readFile(p1->getInputFile() , p1->getOutputFile());
     } else if (inputFile.substr(inputFile.size() - 3) == PPM) {
         cout << "ppm file found" << endl;
         cout<< p1->getInputFile();
         inPpm.readFile(p1->getInputFile());
     } else { cout << "invalid input " << endl; }
 
-
-    p1->rotate();
     return 0;
 }
 
