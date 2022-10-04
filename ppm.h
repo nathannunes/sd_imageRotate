@@ -18,6 +18,9 @@ public:
     int getMaxHeight();
     int getMaxWidth();
     string getMagicNum();
+	void swapDimensions(){
+        swap(this->maxHeight,this->maxWidth);
+    }
 
 
 protected:
