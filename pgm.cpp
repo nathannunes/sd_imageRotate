@@ -44,9 +44,9 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
     }
 
 
-    cout <<magicNum<< " "<<  maxWidth << " " << maxHeight << endl;
+   // cout <<magicNum<< " "<<  maxWidth << " " << maxHeight << endl;
 
-    cout << p1->getRotateDirection() << endl;
+   // cout << p1->getRotateDirection() << endl;
     // Read files based on Magic Number
     if(magicNum == "P2"){
         while(!inputFile.eof()){
@@ -59,12 +59,12 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
     } else if(magicNum == "P5"){
         vector<unsigned char> buffer(maxHeight*maxWidth);
         if(inputFile.read((char*)buffer.data(),maxHeight*maxWidth)){
-            cout<<"it worked"<<endl;
+            //cout<<"it worked"<<endl;
             for(long long i=0;i<(maxHeight*maxWidth);i=i+1){
                 GrayPixel pixel(buffer[i]);
                 grayPixelsVector.push_back(pixel);
             }
-            cout<<"size is "<<grayPixelsVector.size()<<endl;
+            //cout<<"size is "<<grayPixelsVector.size()<<endl;
         }
     }
 
@@ -78,8 +78,8 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
          imageContainer.push_back(columns);
       //   cout << "pushed column : " << i <<endl;
      }
-     cout<<"size is "<<imageContainer.size()<<endl;
-     cout<<"size 2 is "<<imageContainer[0].size()<<endl;
+     //cout<<"size is "<<imageContainer.size()<<endl;
+     //cout<<"size 2 is "<<imageContainer[0].size()<<endl;
 
     return imageContainer;
 

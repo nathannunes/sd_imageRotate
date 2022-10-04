@@ -20,7 +20,7 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
     long long maxH = inPgm.getMaxHeight();
     long long maxW = inPgm.getMaxWidth();
     int iterations = p1->getAngleOfRotation() <= 270 ? p1->getAngleOfRotation()/90 : 0;
-    cout << iterations<<endl;
+    //cout << iterations<<endl;
 
     if(p1->getRotateDirection() == RIGHT_ROTATE){
         //right
@@ -46,9 +46,27 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
         }
 
     }else if(p1->getRotateDirection() == LEFT_ROTATE){
+        int it;
+        if(iterations == 3){ it = 1;}
+        else if (iterations == 2) { it = 2;}
+        else if (iterations == 1) { it = 3;}
         //left
-        while(iterations > 0){
-            for (int i = 0; i < maxH / 2; i++) {
+        while(it > 0){
+            for(long long i=0; i<maxH ; i++){
+                for(long long j=i ; j<maxW; j++){
+                    swap(imageContainer[i][j] , imageContainer[j][i]);
+                }
+            }
+            // swap both ends
+
+            for(int i=0; i<n;i++){
+                for ( int k = 0, j = imageContainer[i].size() - 1; k < imageContainer[i].size()/2; k++, j--)
+                {
+                    swap(imageContainer[i][k] , imageContainer[i][j]);
+                }
+            }
+
+            /*for (int i = 0; i < maxH / 2; i++) {
                 int top = i;
                 int bottom = maxW - 1 - i;
                 for (int j = top; j < bottom; j++) {
@@ -58,10 +76,10 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
                     imageContainer[bottom][bottom - (j - top)] = imageContainer[bottom - (j - top)][top];
                     imageContainer[bottom - (j - top)][top] = temp;
                 }
-            }
+            }*/
             //swap Dimensions
             inPgm.swapDimensions();
-            iterations--;
+            it--;
         }
     }
 
