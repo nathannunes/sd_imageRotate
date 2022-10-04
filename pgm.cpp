@@ -42,11 +42,6 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
     if(magicNum == "P5"){
         inputFile >> maxPixelSize;
     }
-
-
-   // cout <<magicNum<< " "<<  maxWidth << " " << maxHeight << endl;
-
-   // cout << p1->getRotateDirection() << endl;
     // Read files based on Magic Number
     if(magicNum == "P2"){
         while(!inputFile.eof()){
@@ -55,16 +50,13 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
             GrayPixel pixel(gray);
             grayPixelsVector.push_back(pixel);
         }
-        cout<<grayPixelsVector.size()<<endl;
     } else if(magicNum == "P5"){
         vector<unsigned char> buffer(maxHeight*maxWidth);
-        if(inputFile.read((char*)buffer.data(),maxHeight*maxWidth)){
-            //cout<<"it worked"<<endl;
+        if(inputFile.read((char*)buffer.data(),maxHeight*maxWidth)){           
             for(long long i=0;i<(maxHeight*maxWidth);i=i+1){
                 GrayPixel pixel(buffer[i]);
                 grayPixelsVector.push_back(pixel);
             }
-            //cout<<"size is "<<grayPixelsVector.size()<<endl;
         }
     }
 
@@ -76,10 +68,8 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
              columns.push_back(grayPixelsVector[colorPixIdx++]);
          }
          imageContainer.push_back(columns);
-      //   cout << "pushed column : " << i <<endl;
+      
      }
-     //cout<<"size is "<<imageContainer.size()<<endl;
-     //cout<<"size 2 is "<<imageContainer[0].size()<<endl;
 
     return imageContainer;
 
@@ -90,14 +80,14 @@ void Pgm::writeFile(vector<vector<GrayPixel> > rotImageContainer){
     Rotator *p1 = Rotator::Instance();
 
     ofstream outData;
-    outData.open(p1->getOutputFile());
+    outData.open(p1->getOutputFile(),ios::binary);
     if(!outData.is_open()){
         cout<<"file not opened"<<endl;
         return;
     }
     outData<<magicNum<<"\n";
     outData<< "#"<<"\n";
-    outData<<maxWidth<<"  "<<maxHeight<<"\n";
+    outData<<maxWidth<<" "<<maxHeight<<"\n";
     if(magicNum == "P5"){
         outData << maxPixelSize<<"\n";
     }
