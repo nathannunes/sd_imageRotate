@@ -15,15 +15,12 @@ const static string RIGHT_ROTATE = "-r";
 
 
 vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageContainer,Pgm inPgm){
-
     Rotator *p1 = Rotator::Instance();
-
     long long n = imageContainer.size();
     long long maxH = inPgm.getMaxHeight();
     long long maxW = inPgm.getMaxWidth();
     int iterations = p1->getAngleOfRotation() <= 270 ? p1->getAngleOfRotation()/90 : 0;
-
-    cout<< "in rotate method  " << iterations << " " << p1->getAngleOfRotation() <<endl;
+    cout << iterations<<endl;
 
     if(p1->getRotateDirection() == RIGHT_ROTATE){
         //right
@@ -42,7 +39,6 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
 
             iterations--;
         }
-
 
     }else if(p1->getRotateDirection() == LEFT_ROTATE){
         //left
@@ -131,7 +127,7 @@ int main(int argc, char** argv) {
         cout << inputFile;
         vector<vector<GrayPixel> > imageContainer = inPgm.readFile(p1->getInputFile());
         vector<vector<GrayPixel> > rotatedimageContainer = p1->rotatePGM(imageContainer,inPgm);
-        inPgm.writeFile(rotatedimageContainer);
+        inPgm.writeFile(imageContainer);
     } else if (inputFile.substr(inputFile.size() - 3) == PPM) {
         cout << "ppm file found" << endl;
         vector<vector<ColorPixel> > imageContainer = inPpm.readFile(p1->getInputFile());

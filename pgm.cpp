@@ -39,7 +39,10 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
     }
     inputFile >> maxWidth;
     inputFile >> maxHeight;
-    inputFile >> maxPixelSize;
+    if(magicNum == "P5"){
+        inputFile >> maxPixelSize;
+    }
+
 
     cout <<magicNum<< " "<<  maxWidth << " " << maxHeight << endl;
 
@@ -57,7 +60,7 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
         vector<unsigned char> buffer(maxHeight*maxWidth);
         if(inputFile.read((char*)buffer.data(),maxHeight*maxWidth)){
             cout<<"it worked"<<endl;
-            for(int i=0;i<(maxHeight*maxWidth);i=i+1){
+            for(long long i=0;i<(maxHeight*maxWidth);i=i+1){
                 GrayPixel pixel(buffer[i]);
                 grayPixelsVector.push_back(pixel);
             }
@@ -67,9 +70,9 @@ vector<vector<GrayPixel> > Pgm::readFile(string filePath){
 
     // Put pixel values in 2D VECTOR
      long int colorPixIdx =0;
-     for(int i=0;i<maxHeight;i++){
+     for(long long i=0;i<maxHeight;i++){
          vector<GrayPixel> columns;
-         for(int j=0;j<maxWidth;j++){
+         for(long long j=0;j<maxWidth;j++){
              columns.push_back(grayPixelsVector[colorPixIdx++]);
          }
          imageContainer.push_back(columns);
@@ -95,6 +98,9 @@ void Pgm::writeFile(vector<vector<GrayPixel> > rotImageContainer){
     outData<<magicNum<<"\n";
     outData<< "#"<<"\n";
     outData<<maxHeight<<"  "<<maxWidth<<"\n";
+    if(magicNum == "P5"){
+        outData << maxPixelSize<<"\n";
+    }
 
     if(magicNum == "P2"){
         for(int i=0;i<maxHeight;i++){
