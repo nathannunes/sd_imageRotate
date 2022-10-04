@@ -1,7 +1,7 @@
 #include "ppm.h"
 #include <string>
 #include "ColorPixel.h"
-
+#include "Rotator.h"
 
 Ppm::Ppm(){
     //ctor
@@ -12,13 +12,13 @@ Ppm::~Ppm(){
 }
 
 vector<vector<ColorPixel> > Ppm::readFile(string filePath){
-    cout<<"file is "<<filePath<<endl;
+    
     ifstream inputFile(filePath,ifstream::binary);
     if(!inputFile.is_open()){
         cout<<"Cannot read file";
         return vector<vector<ColorPixel> >();
     }
-    cout<<"got here1";
+    
     string magicNumLocal;
     inputFile>>magicNumLocal;
     this->magicNum = magicNumLocal;
@@ -32,7 +32,7 @@ vector<vector<ColorPixel> > Ppm::readFile(string filePath){
     inputFile >> maxWidth;
     inputFile >> maxHeight;
     inputFile >> maxPixelSize;
-    cout<<"got it";
+    
     if(this->magicNum == "P3"){
         while(!inputFile.eof()){
             int red,green,blue;
@@ -50,7 +50,7 @@ vector<vector<ColorPixel> > Ppm::readFile(string filePath){
                 ColorPixel pixel(buffer[i],buffer[i+1],buffer[i+2]);
                 colorPixelsVector.push_back(pixel);
             }
-            cout<<"size is "<<colorPixelsVector.size();
+            
         }
     }
     long int colorPixIdx =0;
@@ -58,21 +58,18 @@ vector<vector<ColorPixel> > Ppm::readFile(string filePath){
         vector<ColorPixel> columns;
         for(int j=0;j<maxWidth;j++){
             columns.push_back(colorPixelsVector[colorPixIdx++]);
-        }
-        cout<<"got column "<<columns.size()<<endl;
-        imageContainer.push_back(columns);
-        cout<<"got row "<<imageContainer.size()<<endl;
+        }        
+        imageContainer.push_back(columns);        
     }
-    cout<<"size is "<<imageContainer.size()<<endl;
-    cout<<"size 2 is "<<imageContainer[0].size()<<endl;
     return imageContainer;
 
 
 }
 
 void Ppm::writeFile(vector<vector<ColorPixel> > imageContainerT){
+	Rotator *p1 = Rotator::Instance();
     ofstream outData;
-    outData.open("createImgOutput.ppm",ios::binary);
+    outData.open(p1->getOutputFile(),ios::binary);
     if(!outData.is_open()){
         cout<<"file not opened";
         return;
@@ -83,17 +80,14 @@ void Ppm::writeFile(vector<vector<ColorPixel> > imageContainerT){
     if(this->magicNum == "P6"){
         outData<<"P6"<<"\n";
     }
-    outData<<maxHeight<<" "<<maxWidth<<"\n";
+    outData<<maxWidth<<" "<<maxHeight<<"\n";
     outData<<maxPixelSize<<"\n";
     for(long long unsigned int i=0;i<imageContainerT.size();i++){
         for(long long unsigned int j=0;j<imageContainerT[i].size();j++){
             if(this->magicNum == "P3"){
                 outData<<imageContainerT[i][j].getRedValue()<<"\n"<<imageContainerT[i][j].getGreenValue()<<"\n"<<imageContainerT[i][j].getBlueValue()<<"\n";
             }
-            if(this->magicNum == "P6"){
-
-                //cout<<"i is "<<i<<" j is "<<j<<endl;
-                //outData<<imageContainerT[i][j].getBinRed()<<imageContainerT[i][j].getBinGreen()<<imageContainerT[i][j].getBinBlue();
+            if(this->magicNum == "P6"){               
                 outData<<imageContainerT[i][j].getBinRed()<<imageContainerT[i][j].getBinGreen()<<imageContainerT[i][j].getBinBlue();
             }
 
