@@ -77,8 +77,8 @@ vector<vector<ColorPixel> > Rotator::rotatePPM(vector<vector<ColorPixel> > image
     //Transposing matrix
 
     vector<vector<ColorPixel> > imageContainerT(maxW,vector<ColorPixel>(maxH));
-    for(int i=0;i<inPpm.getMaxHeight();i++){
-        for(int j=0;j<inPpm.getMaxWidth();j++){
+	for(int i=0;i<imageContainer.size();i++){
+        for(int j=0;j<imageContainer[i].size();j++){
             imageContainerT[j][i] = imageContainer[i][j];
         }
     }
@@ -138,12 +138,25 @@ int main(int argc, char** argv) {
     } else if (inputFile.substr(inputFile.size() - 3) == PPM) {
         cout << "ppm file found" << endl;
         vector<vector<ColorPixel> > imageContainer = inPpm.readFile(p1->getInputFile());
-        vector<vector<ColorPixel> > rotatedimageContainer = p1->rotatePPM(imageContainer,inPpm);
+		int iterations = p1->getAngleOfRotation() <= 270 ? p1->getAngleOfRotation()/90 : 0;
+		if(p1->getRotateDirection() == LEFT_ROTATE && iterations == 1){
+			
+			iterations = 3;
+		}
+		else if(p1->getRotateDirection() == LEFT_ROTATE && iterations == 3){
+			iterations = 1;
+		}
+		vector<vector<ColorPixel> > rotatedimageContainer = p1->rotatePPM(imageContainer,inPpm);
+		inPpm.swapDimensions();
+		for(int i=0;i<iterations-1;i++){
+			rotatedimageContainer = p1->rotatePPM(rotatedimageContainer,inPpm);
+			inPpm.swapDimensions();
+		}
+        
         inPpm.writeFile(rotatedimageContainer);
     } else { cout << "invalid input " << endl; }
 
     return 0;
 }
-
 
 
