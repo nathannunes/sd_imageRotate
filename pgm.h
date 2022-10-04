@@ -20,8 +20,13 @@ class Pgm {
 public:
     Pgm();
     ~Pgm();
-    int readFile(string filePath, string outFilePath);
-
+    vector<vector<GrayPixel> > readFile(string filePath);
+    void writeFile(vector<vector<GrayPixel> > imageContainerT);
+    int getMaxHeight();
+    int getMaxWidth();
+    void swapDimensions(){
+        swap(maxHeight,maxWidth);
+    }
 
 protected:
 

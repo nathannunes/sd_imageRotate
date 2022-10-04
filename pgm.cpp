@@ -7,12 +7,8 @@
 #include "PixelFiles/grayPixel.h"
 #include "Rotator.h"
 
-void swapVectorRows(int i, int i1, vector<GrayPixel> vector1);
 
 using namespace std;
-
-const static string LEFT_ROTATE = "-l";
-const static string RIGHT_ROTATE = "-r";
 
 Pgm::Pgm(){
     //ctor
@@ -22,7 +18,16 @@ Pgm::~Pgm(){
     //dtor
 }
 
-int Pgm::readFile(string filePath, string outputFilePath){
+int Pgm::getMaxWidth() {
+    return this->maxWidth;
+}
+int Pgm::getMaxHeight() {
+    return this->maxHeight;
+}
+
+vector<vector<GrayPixel> > Pgm::readFile(string filePath){
+    Rotator *p1 = Rotator::Instance();
+    cout << endl;
     ifstream inputFile(filePath,ifstream::binary);
     inputFile>>magicNum;
     inputFile.seekg(1,inputFile.cur);
@@ -36,7 +41,10 @@ int Pgm::readFile(string filePath, string outputFilePath){
     inputFile >> maxHeight;
     inputFile >> maxPixelSize;
 
+    cout <<magicNum<< " "<<  maxWidth << " " << maxHeight << endl;
 
+    cout << p1->getRotateDirection() << endl;
+    // Read files based on Magic Number
     if(magicNum == "P2"){
         while(!inputFile.eof()){
             int gray;
@@ -45,67 +53,64 @@ int Pgm::readFile(string filePath, string outputFilePath){
             grayPixelsVector.push_back(pixel);
         }
         cout<<grayPixelsVector.size()<<endl;
+    } else if(magicNum == "P5"){
+        vector<unsigned char> buffer(maxHeight*maxWidth);
+        if(inputFile.read((char*)buffer.data(),maxHeight*maxWidth)){
+            cout<<"it worked"<<endl;
+            for(int i=0;i<(maxHeight*maxWidth);i=i+1){
+                GrayPixel pixel(buffer[i]);
+                grayPixelsVector.push_back(pixel);
+            }
+            cout<<"size is "<<grayPixelsVector.size()<<endl;
+        }
     }
+
+    // Put pixel values in 2D VECTOR
+     long int colorPixIdx =0;
      for(int i=0;i<maxHeight;i++){
          vector<GrayPixel> columns;
          for(int j=0;j<maxWidth;j++){
-             columns.push_back(grayPixelsVector.front());
-             grayPixelsVector.erase(grayPixelsVector.begin());
+             columns.push_back(grayPixelsVector[colorPixIdx++]);
          }
-         //cout<<"got column "<<columns.size()<<endl;
          imageContainer.push_back(columns);
-         //cout<<"got row "<<imageContainer.size()<<endl;
+      //   cout << "pushed column : " << i <<endl;
      }
      cout<<"size is "<<imageContainer.size()<<endl;
      cout<<"size 2 is "<<imageContainer[0].size()<<endl;
 
-    Rotator *p1 = Rotator::Instance();
-
-    int n = imageContainer.size();
-    if(p1->getRotateDirection() == RIGHT_ROTATE){
-        //right
-
-        for(int i=0; i<n ; i++){
-            for(int j=i ; j<n; j++){
-                swap(imageContainer[i][j] , imageContainer[j][i]);
-            }
-        }
-        for(int i=0; i<n;i++){
-            reverse( imageContainer[i].begin(),imageContainer[i].end());
-        }
-    }else if(p1->getRotateDirection() == LEFT_ROTATE){
-        //left
-        for (int i = 0; i < n / 2; i++) {
-            int top = i;
-            int bottom = n - 1 - i;
-            for (int j = top; j < bottom; j++) {
-                GrayPixel temp = imageContainer[top][j];
-                imageContainer[top][j] = imageContainer[j][bottom];
-                imageContainer[j][bottom] = imageContainer[bottom][bottom - (j - top)];
-                imageContainer[bottom][bottom - (j - top)] = imageContainer[bottom - (j - top)][top];
-                imageContainer[bottom - (j - top)][top] = temp;
-            }
-        }
-    }
-
-    ofstream outData;
-    outData.open(outputFilePath);
-    if(!outData.is_open()){
-        cout<<"file not opened";
-        return 1;
-    }
-
-    outData<<magicNum<<"\n";
-    outData<<maxHeight<< " "<<maxWidth<<"\n";
-    for(int i=0;i<maxHeight;i++){
-        for(int j=0;j<maxWidth;j++){
-            outData<<imageContainer[i][j].getGrayValue()<<"\n";
-        }
-    }
-    cout<<"done,closing file ";
-    outData.close();
+    return imageContainer;
 
 }
 
 
+void Pgm::writeFile(vector<vector<GrayPixel> > rotImageContainer){
+    Rotator *p1 = Rotator::Instance();
 
+    ofstream outData;
+    outData.open(p1->getOutputFile());
+    if(!outData.is_open()){
+        cout<<"file not opened"<<endl;
+        return;
+    }
+    outData<<magicNum<<"\n";
+    outData<< "#"<<"\n";
+    outData<<maxHeight<<"  "<<maxWidth<<"\n";
+
+    if(magicNum == "P2"){
+        for(int i=0;i<maxHeight;i++){
+            for(int j=0;j<maxWidth;j++){
+                outData<<rotImageContainer[i][j].getGrayValue()<<"\n";
+            }
+        }
+        cout<<"done,closing file "<<endl;
+    }else if (magicNum == "P5"){
+        for(long long unsigned int i=0;i<rotImageContainer.size();i++){
+            for(long long unsigned int j=0;j<rotImageContainer[i].size();j++){
+                outData<<rotImageContainer[i][j].getBinGrayValue();
+            }
+        }
+        cout<<"done,closing file "<<endl;
+    }
+
+    outData.close();
+}

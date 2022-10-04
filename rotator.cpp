@@ -10,10 +10,69 @@
 
 using namespace std;
 
+const static string LEFT_ROTATE = "-l";
+const static string RIGHT_ROTATE = "-r";
+
+
+vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageContainer,Pgm inPgm){
+
+    Rotator *p1 = Rotator::Instance();
+
+    long long n = imageContainer.size();
+    long long maxH = inPgm.getMaxHeight();
+    long long maxW = inPgm.getMaxWidth();
+    int iterations = p1->getAngleOfRotation() <= 270 ? p1->getAngleOfRotation()/90 : 0;
+
+    cout<< "in rotate method  " << iterations << " " << p1->getAngleOfRotation() <<endl;
+
+    if(p1->getRotateDirection() == RIGHT_ROTATE){
+        //right
+        while(iterations > 0){
+            for(long long i=0; i<maxH ; i++){
+                for(long long j=i ; j<maxW; j++){
+                    swap(imageContainer[i][j] , imageContainer[j][i]);
+                }
+            }
+            // swap both ends
+            for(int i=0; i<n;i++){
+                reverse( imageContainer[i].begin(),imageContainer[i].end());
+            }
+            //swap Dimensions
+            inPgm.swapDimensions();
+
+            iterations--;
+        }
+
+
+    }else if(p1->getRotateDirection() == LEFT_ROTATE){
+        //left
+        while(iterations > 0){
+            for (int i = 0; i < n / 2; i++) {
+                int top = i;
+                int bottom = n - 1 - i;
+                for (int j = top; j < bottom; j++) {
+                    GrayPixel temp = imageContainer[top][j];
+                    imageContainer[top][j] = imageContainer[j][bottom];
+                    imageContainer[j][bottom] = imageContainer[bottom][bottom - (j - top)];
+                    imageContainer[bottom][bottom - (j - top)] = imageContainer[bottom - (j - top)][top];
+                    imageContainer[bottom - (j - top)][top] = temp;
+                }
+            }
+            //swap Dimensions
+            inPgm.swapDimensions();
+            iterations--;
+        }
+    }
+
+    return imageContainer;
+
+}
+
 vector<vector<ColorPixel> > Rotator::rotatePPM(vector<vector<ColorPixel> > imageContainer,Ppm inPpm){
     int maxH = inPpm.getMaxHeight();
     int maxW = inPpm.getMaxWidth();
     //Transposing matrix
+
     vector<vector<ColorPixel> > imageContainerT(maxW,vector<ColorPixel>(maxH));
     for(int i=0;i<inPpm.getMaxHeight();i++){
         for(int j=0;j<inPpm.getMaxWidth();j++){
@@ -64,17 +123,20 @@ int main(int argc, char** argv) {
     p1->setInputFile(inputFile);
     p1->setOutputFile(outputFile);
     p1->setRotateDirection(rotateDirection);
+    p1->setAngleOfRotation(angleOfRotation);
 
-    //p1->setAngleOfRotation(angleOfRotation), p1->setRotateDirection(rotateDirection);
 
     if (inputFile.substr(inputFile.size() - 3) == PGM) {
         cout << "pgm file found" << endl;
         cout << inputFile;
-        inPgm.readFile(p1->getInputFile() , p1->getOutputFile());
+        vector<vector<GrayPixel> > imageContainer = inPgm.readFile(p1->getInputFile());
+        vector<vector<GrayPixel> > rotatedimageContainer = p1->rotatePGM(imageContainer,inPgm);
+        inPgm.writeFile(rotatedimageContainer);
     } else if (inputFile.substr(inputFile.size() - 3) == PPM) {
         cout << "ppm file found" << endl;
-        cout<< p1->getInputFile();
-        inPpm.readFile(p1->getInputFile());
+        vector<vector<ColorPixel> > imageContainer = inPpm.readFile(p1->getInputFile());
+        vector<vector<ColorPixel> > rotatedimageContainer = p1->rotatePPM(imageContainer,inPpm);
+        inPpm.writeFile(rotatedimageContainer);
     } else { cout << "invalid input " << endl; }
 
     return 0;
