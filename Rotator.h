@@ -8,7 +8,7 @@
 #include <vector>
 #include "ppm.h"
 #include "pgm.h"
-#include "PixelFiles/ColorPixel.h"
+#include "ColorPixel.h"
 
 class Rotator{
 

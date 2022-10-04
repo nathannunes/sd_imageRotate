@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "PixelFiles/ColorPixel.h"
+#include "ColorPixel.h"
 using namespace std;
 
 #ifndef PPM_H

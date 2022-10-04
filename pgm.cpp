@@ -4,7 +4,7 @@
 
 #include "pgm.h"
 #include <iostream>
-#include "PixelFiles/grayPixel.h"
+#include "grayPixel.h"
 #include "Rotator.h"
 
 

@@ -9,7 +9,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "PixelFiles/grayPixel.h"
+#include "grayPixel.h"
 
 using namespace std;
 

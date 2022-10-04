@@ -6,7 +6,7 @@
 #include "Rotator.h"
 #include "ppm.h"
 #include "pgm.h"
-#include "PixelFiles/ColorPixel.h"
+#include "ColorPixel.h"
 
 using namespace std;
 

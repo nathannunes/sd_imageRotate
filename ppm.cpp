@@ -1,6 +1,6 @@
 #include "ppm.h"
 #include <string>
-#include "PixelFiles/ColorPixel.h"
+#include "ColorPixel.h"
 
 
 Ppm::Ppm(){
