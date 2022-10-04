@@ -11,7 +11,8 @@ private:
     unsigned char binBlue;
 
 public:
-    ColorPixel(int redValue, int blueValue, int greenValue);
+    //ColorPixel(int redValue, int blueValue, int greenValue);
+	ColorPixel(int redValue, int greenValue, int blueValue);
     ColorPixel(unsigned char binRed,unsigned char binGreen,unsigned char binBlue);
     ColorPixel();
     ~ColorPixel();
