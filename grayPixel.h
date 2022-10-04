@@ -9,8 +9,9 @@ class GrayPixel{
 private:
     int grayValue;
     unsigned char binGrayValue;
-    GrayPixel(){grayValue=0;};
+    
 public:
+	GrayPixel(){grayValue=0;};
     GrayPixel(int grayValue){
         this->grayValue=grayValue;
     }
