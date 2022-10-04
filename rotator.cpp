@@ -13,7 +13,7 @@ using namespace std;
 const static string LEFT_ROTATE = "-l";
 const static string RIGHT_ROTATE = "-r";
 
-
+/*
 vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageContainer,Pgm inPgm){
     Rotator *p1 = Rotator::Instance();
     long long n = imageContainer.size();
@@ -69,6 +69,30 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
 
     return imageContainer;
 
+}*/
+
+vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageContainer,Pgm inPgm){
+    int maxH = inPgm.getMaxHeight();
+    int maxW = inPgm.getMaxWidth();
+    //Transposing matrix
+
+    vector<vector<GrayPixel> > imageContainerT(maxW,vector<GrayPixel>(maxH));
+	for(int i=0;i<imageContainer.size();i++){
+        for(int j=0;j<imageContainer[i].size();j++){
+            imageContainerT[j][i] = imageContainer[i][j];
+        }
+    }
+    for(long long unsigned int i=0; i<imageContainerT.size(); ++i) {
+        // 2 Pointer approach :  just like we do in 1D array we take left and right pointers
+        // and swap the values and then make those pointers intersect at some point.
+        int left = 0, right = imageContainerT[i].size()-1;
+        while(left < right) {
+            swap(imageContainerT[i][left], imageContainerT[i][right]);
+            ++left;
+            --right;
+        }
+    }
+    return imageContainerT;
 }
 
 vector<vector<ColorPixel> > Rotator::rotatePPM(vector<vector<ColorPixel> > imageContainer,Ppm inPpm){
@@ -133,7 +157,23 @@ int main(int argc, char** argv) {
         cout << "pgm file found" << endl;
         cout << inputFile;
         vector<vector<GrayPixel> > imageContainer = inPgm.readFile(p1->getInputFile());
-        vector<vector<GrayPixel> > rotatedimageContainer = p1->rotatePGM(imageContainer,inPgm);
+        //vector<vector<GrayPixel> > rotatedimageContainer = p1->rotatePGM(imageContainer,inPgm);
+		
+		int iterations = p1->getAngleOfRotation() <= 270 ? p1->getAngleOfRotation()/90 : 0;
+		if(p1->getRotateDirection() == LEFT_ROTATE && iterations == 1){
+			
+			iterations = 3;
+		}
+		else if(p1->getRotateDirection() == LEFT_ROTATE && iterations == 3){
+			iterations = 1;
+		}
+		vector<vector<GrayPixel> > rotatedimageContainer = p1->rotatePGM(imageContainer,inPgm);
+		inPgm.swapDimensions();
+		for(int i=0;i<iterations-1;i++){
+			rotatedimageContainer = p1->rotatePGM(rotatedimageContainer,inPgm);
+			inPgm.swapDimensions();
+		}
+		
         inPgm.writeFile(rotatedimageContainer);
     } else if (inputFile.substr(inputFile.size() - 3) == PPM) {
         cout << "ppm file found" << endl;
@@ -158,5 +198,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-
-
