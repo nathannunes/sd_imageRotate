@@ -31,9 +31,14 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
                 }
             }
             // swap both ends
+
             for(int i=0; i<n;i++){
-                reverse( imageContainer[i].begin(),imageContainer[i].end());
+                for ( int k = 0, j = imageContainer[i].size() - 1; k < imageContainer[i].size()/2; k++, j--)
+                {
+                    swap(imageContainer[i][k] , imageContainer[i][j]);
+                }
             }
+
             //swap Dimensions
             inPgm.swapDimensions();
 
