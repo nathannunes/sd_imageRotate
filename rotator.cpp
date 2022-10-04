@@ -43,9 +43,9 @@ vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageCo
     }else if(p1->getRotateDirection() == LEFT_ROTATE){
         //left
         while(iterations > 0){
-            for (int i = 0; i < n / 2; i++) {
+            for (int i = 0; i < maxH / 2; i++) {
                 int top = i;
-                int bottom = n - 1 - i;
+                int bottom = maxW - 1 - i;
                 for (int j = top; j < bottom; j++) {
                     GrayPixel temp = imageContainer[top][j];
                     imageContainer[top][j] = imageContainer[j][bottom];
@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
         cout << inputFile;
         vector<vector<GrayPixel> > imageContainer = inPgm.readFile(p1->getInputFile());
         vector<vector<GrayPixel> > rotatedimageContainer = p1->rotatePGM(imageContainer,inPgm);
-        inPgm.writeFile(imageContainer);
+        inPgm.writeFile(rotatedimageContainer);
     } else if (inputFile.substr(inputFile.size() - 3) == PPM) {
         cout << "ppm file found" << endl;
         vector<vector<ColorPixel> > imageContainer = inPpm.readFile(p1->getInputFile());

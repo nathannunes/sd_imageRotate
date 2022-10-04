@@ -97,7 +97,7 @@ void Pgm::writeFile(vector<vector<GrayPixel> > rotImageContainer){
     }
     outData<<magicNum<<"\n";
     outData<< "#"<<"\n";
-    outData<<maxHeight<<"  "<<maxWidth<<"\n";
+    outData<<maxWidth<<"  "<<maxHeight<<"\n";
     if(magicNum == "P5"){
         outData << maxPixelSize<<"\n";
     }
