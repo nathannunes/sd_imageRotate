@@ -1,3 +1,4 @@
+// Assignment by Nathan Nunes , Rajat Pandey
 #ifndef COLORPIXEL_H
 #define COLORPIXEL_H
 

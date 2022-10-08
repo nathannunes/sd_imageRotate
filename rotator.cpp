@@ -1,6 +1,7 @@
 //
 // Created by Nathan Nunes on 10/1/22.
 //
+// Assignment by Nathan Nunes , Rajat Pandey
 #include <iostream>
 #include <vector>
 #include "Rotator.h"
@@ -12,64 +13,6 @@ using namespace std;
 
 const static string LEFT_ROTATE = "-l";
 const static string RIGHT_ROTATE = "-r";
-
-/*
-vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageContainer,Pgm inPgm){
-    Rotator *p1 = Rotator::Instance();
-    long long n = imageContainer.size();
-    long long maxH = inPgm.getMaxHeight();
-    long long maxW = inPgm.getMaxWidth();
-    int iterations = p1->getAngleOfRotation() <= 270 ? p1->getAngleOfRotation()/90 : 0;
-    cout << iterations<<endl;
-
-    if(p1->getRotateDirection() == RIGHT_ROTATE){
-        //right
-        while(iterations > 0){
-            for(long long i=0; i<n ; i++){
-                for(long long j=i ; j<n; j++){
-                    swap(imageContainer[i][j] , imageContainer[j][i]);
-                }
-            }
-            // swap both ends
-
-            cout << "finished swapping" << endl;
-            for(int i=0; i<n;i++){
-                for ( int k = 0, j = imageContainer[i].size() - 1; k < imageContainer[i].size()/2; k++, j--)
-                {
-                    swap(imageContainer[i][k] , imageContainer[i][j]);
-                }
-            }
-
-            //swap Dimensions
-            inPgm.swapDimensions();
-
-            iterations--;
-        }
-
-    }else if(p1->getRotateDirection() == LEFT_ROTATE){
-
-        //left
-        while(iterations > 0){
-            for (int i = 0; i < n / 2; i++) {
-                int top = i;
-                int bottom = n - 1 - i;
-                for (int j = top; j < bottom; j++) {
-                    GrayPixel temp = imageContainer[top][j];
-                    imageContainer[top][j] = imageContainer[j][bottom];
-                    imageContainer[j][bottom] = imageContainer[bottom][bottom - (j - top)];
-                    imageContainer[bottom][bottom - (j - top)] = imageContainer[bottom - (j - top)][top];
-                    imageContainer[bottom - (j - top)][top] = temp;
-                }
-            }
-            //swap Dimensions
-            inPgm.swapDimensions();
-            iterations--;
-        }
-    }
-
-    return imageContainer;
-
-}*/
 
 vector<vector<GrayPixel> > Rotator::rotatePGM(vector<vector<GrayPixel> > imageContainer,Pgm inPgm){
     int maxH = inPgm.getMaxHeight();

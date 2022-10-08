@@ -1,3 +1,4 @@
+// Assignment by Nathan Nunes , Rajat Pandey
 #include "ColorPixel.h"
 
 ColorPixel::ColorPixel(int redValue, int greenValue, int blueValue){

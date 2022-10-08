@@ -2,7 +2,7 @@
 #include <string>
 #include "ColorPixel.h"
 #include "Rotator.h"
-
+// Assignment by Nathan Nunes , Rajat Pandey
 Ppm::Ppm(){
     //ctor
 }
@@ -13,7 +13,7 @@ Ppm::~Ppm(){
 
 vector<vector<ColorPixel> > Ppm::readFile(string filePath){
     
-    ifstream inputFile(filePath,ifstream::binary);
+    ifstream inputFile(filePath,ios::in|ios::binary);
     if(!inputFile.is_open()){
         cout<<"Cannot read file";
         return vector<vector<ColorPixel> >();
@@ -44,9 +44,12 @@ vector<vector<ColorPixel> > Ppm::readFile(string filePath){
     }
     if(this->magicNum == "P6"){
         vector<unsigned char> buffer(maxHeight*maxWidth*3);
-        if(inputFile.read((char*)buffer.data(),maxHeight*maxWidth*3)){
+
+
+        if(inputFile.ignore(maxHeight * maxWidth * 3, '\n') && inputFile.read(reinterpret_cast<char *>(reinterpret_cast<unsigned char *>(buffer.data())), maxHeight * maxWidth * 3)){
             cout<<"it worked";
             for(int i=0;i<(maxHeight*maxWidth*3)-2;i=i+3){
+                //cout << buffer[i] << " " << buffer[i+1] << " " << buffer[i+2]<<endl;
                 ColorPixel pixel(buffer[i],buffer[i+1],buffer[i+2]);
                 colorPixelsVector.push_back(pixel);
             }
@@ -69,7 +72,7 @@ vector<vector<ColorPixel> > Ppm::readFile(string filePath){
 void Ppm::writeFile(vector<vector<ColorPixel> > imageContainerT){
 	Rotator *p1 = Rotator::Instance();
     ofstream outData;
-    outData.open(p1->getOutputFile(),ios::binary);
+    outData.open(p1->getOutputFile(),ios::out|ios::binary);
     if(!outData.is_open()){
         cout<<"file not opened";
         return;
@@ -80,6 +83,7 @@ void Ppm::writeFile(vector<vector<ColorPixel> > imageContainerT){
     if(this->magicNum == "P6"){
         outData<<"P6"<<"\n";
     }
+    outData << "#\n";
     outData<<maxWidth<<" "<<maxHeight<<"\n";
     outData<<maxPixelSize<<"\n";
     for(long long unsigned int i=0;i<imageContainerT.size();i++){
@@ -87,7 +91,7 @@ void Ppm::writeFile(vector<vector<ColorPixel> > imageContainerT){
             if(this->magicNum == "P3"){
                 outData<<imageContainerT[i][j].getRedValue()<<"\n"<<imageContainerT[i][j].getGreenValue()<<"\n"<<imageContainerT[i][j].getBlueValue()<<"\n";
             }
-            if(this->magicNum == "P6"){               
+            if(this->magicNum == "P6"){
                 outData<<imageContainerT[i][j].getBinRed()<<imageContainerT[i][j].getBinGreen()<<imageContainerT[i][j].getBinBlue();
             }
 

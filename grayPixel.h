@@ -1,7 +1,7 @@
 //
 // Created by Nathan Nunes on 9/27/22.
 //
-
+// Assignment by Nathan Nunes , Rajat Pandey
 #ifndef ASSIGNMENT_GRAYPIXEL_H
 #define ASSIGNMENT_GRAYPIXEL_H
 

@@ -1,7 +1,7 @@
 //
 // Created by Nathan Nunes on 10/2/22.
 //
-
+// Assignment by Nathan Nunes , Rajat Pandey
 #ifndef ASSIGNMENT_ROTATOR_H
 #define ASSIGNMENT_ROTATOR_H
 #include <iostream>

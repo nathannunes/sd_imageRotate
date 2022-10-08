@@ -1,7 +1,7 @@
 //
 // Created by Nathan Nunes on 9/26/22.
 //
-
+// Assignment by Nathan Nunes , Rajat Pandey
 #include "pgm.h"
 #include <iostream>
 #include "grayPixel.h"
